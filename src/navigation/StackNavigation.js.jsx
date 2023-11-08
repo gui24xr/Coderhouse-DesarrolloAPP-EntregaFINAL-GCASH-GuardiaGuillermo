@@ -4,7 +4,7 @@ import { colors } from '../constants/constants';
 import { NavigationContainer } from '@react-navigation/native';
 import  TabNavigator  from './TabNavigator'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LoginScr,RegisterScr,HomeScr, AccountDataScr, TransferSelectScr, ProfileScr } from '../screens';
+import { LoginScr,RegisterScr,HomeScr, AccountDataScr, TransferSelectScr, TransferScr, ProfileScr, MapScr } from '../screens';
 import { LoginBarElements } from '../components';
 
 
@@ -44,6 +44,12 @@ const StackNavigation = () => {
       />
       
       <Stack.Screen 
+      name='MapScr' 
+      component={MapScr} 
+      options={configOptionsScreen}
+      />
+
+      <Stack.Screen 
       name='AccountDataScr' 
       component={AccountDataScr} 
       options={configOptionsScreen}
@@ -52,6 +58,12 @@ const StackNavigation = () => {
       <Stack.Screen 
       name='TransferSelectScr' 
       component={TransferSelectScr} 
+      options={configOptionsScreen}
+      />
+
+      <Stack.Screen 
+      name='TransferScr' 
+      component={TransferScr} 
       options={configOptionsScreen}
       />
 

@@ -6,27 +6,24 @@ import { Card, ValuesViewer,ComunityViewer } from "../../components";
 import { styleTextoTipo1, styleTextoTipo2 } from "../../constants/constants";
 import HomeCardMenu from "./Components/HomeCardMenu";
 import FavoritesMenu from "./Components/FavoritesMenu";
-
-
-
-
-//creacionDePerfilesAleatorios()
-
-let valor = 25000;
-const dataFlat= [1,2,34,5,6,7,8,8,9,9,90,0,9,0,0,0,,25,56]
+import { useSelector } from 'react-redux';
 
 
 
 
 const HomeScr = ({ navigation }) => {
+
+  const saldoEnCVU = useSelector(state => state.datos.loggedUser.cvuInfo.balance)
+
+
   return (
     <ScrollView style={styles.container}>
       <Card>
         <Text style={styleTextoTipo1}>Disponible</Text>
         <ValuesViewer
           action={() => alert("Ir a...")}
-          value={"$" + valor.toString()}
-          textStyle={styleTextoTipo1}
+          value={"$" + saldoEnCVU}
+          textStyle={{...styleTextoTipo1}}
         />
         <Pressable onPress={() => navigation.navigate("AccountDataScr")}>
           <Text

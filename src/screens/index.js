@@ -7,6 +7,8 @@ import ProfileScr from "./ProfileScr/ProfileScr";
 import MenuGeneralScr from "./MenuGeneralScr/MenuGeneralScr";
 import AccountDataScr from "./AccountDataScr/AccountDataScr";
 import TransferSelectScr from "./TransferSelectScr/TransferSelectScr";
+import TransferScr from "./TransferScr/TransferScr";
+import MapScr from "./MapScr/MapScr";
 
 export {
   LoginScr,
@@ -18,4 +20,6 @@ export {
   MenuGeneralScr,
   AccountDataScr,
   TransferSelectScr,
+  TransferScr,
+  MapScr,
 };

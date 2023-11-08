@@ -9,7 +9,7 @@ export const datosSlice = createSlice({
     initialState:{
         
         datosUsuarios:DB.getAllUsers(),//usuariosApp,
-        loggedUser: DB.getUserById(1),
+        loggedUser: DB.getUserById(5),
         usuarioSeleccionado:null
     },
 

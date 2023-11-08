@@ -67,7 +67,7 @@ shadowOffset: {
 },
 shadowOpacity: 0.5,
 shadowRadius: 3,
-elevation: 5,
+
 },
 
 buttonsContainer:{

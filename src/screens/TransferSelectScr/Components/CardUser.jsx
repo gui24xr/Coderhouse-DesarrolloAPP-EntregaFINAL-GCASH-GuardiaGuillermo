@@ -14,7 +14,7 @@ const CardUser = (props) => {
       style={styles.cardUserContainer}
       onPress={() => {
         dispatch(selectUser(props.userID));
-        props.navigation.navigate("ProfileScr");
+        props.navigation.navigate("TransferScr");
       }}
     >
       <Image src={props.profilePic} style={styles.profilePic} />
