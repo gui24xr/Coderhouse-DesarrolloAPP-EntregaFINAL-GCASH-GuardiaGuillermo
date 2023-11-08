@@ -95,6 +95,25 @@ getUserById = (requireID) =>{
     //console.log(this.cvuData)
 }
 
+addFavorite = (idUserToAdd, idUserWhereAdd) =>{
+
+    //Me posiciono en el registro donde agregare el favorito
+    const userWhereAdd = this.usuarios.findIndex(item => item.id == idUserWhereAdd)
+    /*Pregunto si en la lista de favoritos existe el favorito a agregar.
+    SI esta, no lo agrego para no repetir y retorno 0, y si esta, no agrego y devuelvo cero */
+    
+    if (this.usuarios[userWhereAdd].favorites.findIndex(item => item == idUserToAdd) < 0){
+    this.usuarios[userWhereAdd].favorites.push(idUserToAdd)
+    //alert('Este contacto se agrego')
+    return 1
+    }
+    else {
+    //alert("el contacto ya esta")
+    return 0
+    }
+    
+
+}
 
 
 }

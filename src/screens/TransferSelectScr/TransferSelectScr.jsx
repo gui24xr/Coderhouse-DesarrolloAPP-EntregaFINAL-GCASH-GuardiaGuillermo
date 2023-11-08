@@ -1,4 +1,4 @@
-import styles from "../TransferSelectScr/TransferSelectScr.styles";
+import styles from "./TransferSelectScr.styles"
 import {
   Text,
   View,
@@ -8,13 +8,14 @@ import {
   FlatList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card } from "../../components";
 import CardUser from "./Components/CardUser";
 
 const TransferSelectScr = ({ navigation }) => {
 
   const usersData = useSelector((state) => state.datos.datosUsuarios);
+
 
   const [valueOnSearch, setValueOnSearch] = useState('') //Dato buscado
   const [dataOnSearch,setDataOnSearch] = useState(usersData) //Datos Mostrados segun Dat Buscado
@@ -23,14 +24,11 @@ const TransferSelectScr = ({ navigation }) => {
   let filteredData=[]
   useEffect(()=>{
 
-
+    //Busca por nombre y/o apellido
     filteredData = usersData.filter(item => item.firstName.includes(valueOnSearch) ||
                                             item.firstName.includes(valueOnSearch.toLowerCase()) ||
                                             item.lastName.includes(valueOnSearch)||
-                                            item.lastName.includes(valueOnSearch.toLowerCase())
-    
-                                            
-                                            )
+                                            item.lastName.includes(valueOnSearch.toLowerCase()))
       setDataOnSearch(filteredData)
 
   },[valueOnSearch])
@@ -50,6 +48,7 @@ const TransferSelectScr = ({ navigation }) => {
         <FlatList
           style={styles.listContainer}
           data={dataOnSearch}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <CardUser
               firstName={item.firstName}
@@ -67,24 +66,3 @@ const TransferSelectScr = ({ navigation }) => {
 };
 
 export default TransferSelectScr;
-//<Button title='sig' onPress={()=>navigation.navigate('TransferScr')}/>
-//<Button title='A transfer' onPress={()=>navigation.navigate('TransferScr')}/>
-
-/*      <ListUsersViewer data={usersData} navigation={navigation}/>
-
-      <ScrollView>
-          
-      <FlatList style={styles.listContainer} data={usersData} 
-      
-      renderItem={({ item })=>
-                            <CardUser firstName= {item.firstName} 
-                                      lastName={item.lastName}
-                                      profilePic={item.profilePic}
-                                      cvu={item.cvu}
-                                      userID={item.id}
-                                      
-
-                                      />}
-                            />
-
-    </ScrollView>*/
