@@ -1,12 +1,12 @@
 import styles from './MapScr.styles'
 import {  Text, View, Dimensions, Button } from 'react-native'
 import React from 'react'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { useEffect, useState } from 'react';
 
 
 import * as Location from "expo-location";
-
+import markersData from '../../global/markersData';
 
 
 
@@ -68,13 +68,25 @@ const MapScr = () => {
 
         <View style={styles.container}>
         <Button title="rrrr" onPress={()=> setRegionInicial(ubic1)}/>
-      <MapView
+      
+        <MapView
        
         provider={PROVIDER_GOOGLE}
         style={styles.mapStyle}
         initialRegion={regionInicial}
         mapType="standard"
-      ></MapView>
+
+
+        
+      >
+      
+      {markersData.map(punto => <Marker key={punto.id}
+      coordinate={{latitude : punto.latitude, longitude : punto.longitude}}/>)}
+      
+      
+      
+      
+      </MapView>
     </View>
   )
 }

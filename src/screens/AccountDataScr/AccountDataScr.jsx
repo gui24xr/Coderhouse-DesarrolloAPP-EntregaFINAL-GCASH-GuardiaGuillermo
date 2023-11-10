@@ -5,7 +5,6 @@ import { ButtonIcons, Card } from '../../components'
 import { colors } from '../../constants/constants'
 import { MaterialCommunityIcons, Entypo} from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
-import { useState } from 'react';
 import * as Clipboard from 'expo-clipboard';
 
 

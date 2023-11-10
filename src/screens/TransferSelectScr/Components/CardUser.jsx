@@ -1,3 +1,5 @@
+
+import styles from './CardUser.styles'
 import { Text, View, Pressable, Image } from "react-native";
 import React from "react";
 import { ButtonIcons } from "../../../components/index";
@@ -5,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { selectUser, addFavoriteToContact } from "../../../features/datosSlice";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import { colors } from "../../../constants/constants";
+
 
 const CardUser = (props) => {
   const dispatch = useDispatch();
