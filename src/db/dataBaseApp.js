@@ -3,10 +3,24 @@
 import usuariosApp from "../global/usuariosApp"
 import cvuData from "../global/cvuData"
 import mediosDePago from "../global/mediosdepago"
+import axios from "axios"
+
+const firebaseConfig = {
+  apiKey: "somekey",
+  authDomain: "somekey",
+  databaseURL: 'https://gcash-404503-default-rtdb.firebaseio.com/',
+  endpoints:['/usuariosApp.json','/usuariosApp/1/firstName.json'],
+  projectId: "somekey",
+  storageBucket: "somekey",
+  messagingSenderId: "somekey",
+  appId: "appIdKey"
+};
 
 class baseDatos{
 
     constructor(){
+
+      
 
         this.usuarios =usuariosApp
         this.paymentElements = mediosDePago
@@ -81,6 +95,8 @@ getUserById = (requireID) =>{
         paymentElements:elementosDePagoInfo,
         favorites: elementosFavoritos,
         operations: userData.operations, //Futura implementacion
+        location: userData.location
+
 
     }
     

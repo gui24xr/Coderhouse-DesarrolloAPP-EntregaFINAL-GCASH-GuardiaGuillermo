@@ -9,7 +9,9 @@ const usuariosApp = [
       cvu: '24-2455-2862-2554',
       paymentMethods: [],
       favorites: [ 15 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
+
     },
     {
       id: 2,
@@ -24,7 +26,8 @@ const usuariosApp = [
         29,  6, 25, 1,
          3, 20,  7
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 3,
@@ -39,7 +42,8 @@ const usuariosApp = [
         30, 17, 14, 26,
          2,  6,  5, 15
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 4,
@@ -51,7 +55,8 @@ const usuariosApp = [
       cvu: '22-9704-4787-7219',
       paymentMethods: [ 15 ],
       favorites: [ 5, 18, 12, 29, 11, 28 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 5,
@@ -66,8 +71,10 @@ const usuariosApp = [
         24, 11, 21,  1,
         13, 10, 19, 25
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
+
     {
       id: 6,
       userName: 'Takisha_Hartmann_6',
@@ -81,7 +88,8 @@ const usuariosApp = [
         26,  4,  1, 27,
          2, 16, 21, 15
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 7,
@@ -96,7 +104,8 @@ const usuariosApp = [
         14, 25,  4, 26,
         20,  9, 10
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 8,
@@ -111,7 +120,8 @@ const usuariosApp = [
         19,  7, 30, 2, 17,
         12, 18, 29, 6
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 9,
@@ -126,7 +136,8 @@ const usuariosApp = [
          1, 18, 13, 10,
         16, 25,  5
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 10,
@@ -141,7 +152,8 @@ const usuariosApp = [
         29, 1, 28, 27, 15,
         20, 6,  4, 11
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 11,
@@ -153,7 +165,8 @@ const usuariosApp = [
       cvu: '64-9745-6435-1383',
       paymentMethods: [ 31 ],
       favorites: [ 8, 5, 3 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 12,
@@ -168,7 +181,8 @@ const usuariosApp = [
          5, 14, 30, 27,
         15, 29, 25,  4
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 13,
@@ -180,7 +194,8 @@ const usuariosApp = [
       cvu: '28-1382-7659-6100',
       paymentMethods: [ 33 ],
       favorites: [ 26, 2 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 14,
@@ -192,7 +207,8 @@ const usuariosApp = [
       cvu: '84-8140-6771-0371',
       paymentMethods: [ 12, 40, 43, 45, 53 ],
       favorites: [ 30, 17, 28, 8, 27, 29 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 15,
@@ -207,7 +223,8 @@ const usuariosApp = [
         30,  6, 25,  5,
         15, 22, 18, 14
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 16,
@@ -219,7 +236,8 @@ const usuariosApp = [
       cvu: '12-1834-9204-7873',
       paymentMethods: [ 5, 44 ],
       favorites: [ 11 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 17,
@@ -234,7 +252,8 @@ const usuariosApp = [
         21, 12, 3, 18,
         27,  9, 8
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 18,
@@ -246,7 +265,8 @@ const usuariosApp = [
       cvu: '88-3733-5385-9809',
       paymentMethods: [ 67 ],
       favorites: [ 13, 10, 7, 28, 24 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 19,
@@ -258,7 +278,8 @@ const usuariosApp = [
       cvu: '81-3787-5447-5172',
       paymentMethods: [],
       favorites: [],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 20,
@@ -273,7 +294,8 @@ const usuariosApp = [
         9,  2, 17, 11,
         5, 16, 19
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 21,
@@ -288,7 +310,8 @@ const usuariosApp = [
          4, 10, 22, 18,
         29,  5,  9,  6
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 22,
@@ -300,7 +323,8 @@ const usuariosApp = [
       cvu: '56-2930-3509-5496',
       paymentMethods: [ 16, 19, 32 ],
       favorites: [ 18 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 23,
@@ -312,7 +336,8 @@ const usuariosApp = [
       cvu: '60-2086-9264-7565',
       paymentMethods: [ 37, 48, 51, 52, 57, 68 ],
       favorites: [ 17, 7, 6 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 24,
@@ -324,7 +349,8 @@ const usuariosApp = [
       cvu: '85-9236-8066-5185',
       paymentMethods: [ 4 ],
       favorites: [ 10 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 25,
@@ -339,7 +365,8 @@ const usuariosApp = [
         9, 26, 15,  6,
         1, 25, 24, 11
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 26,
@@ -351,7 +378,8 @@ const usuariosApp = [
       cvu: '72-6665-3170-4506',
       paymentMethods: [ 17, 66 ],
       favorites: [ 19, 3, 2, 14 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 27,
@@ -363,7 +391,8 @@ const usuariosApp = [
       cvu: '97-3853-1520-9664',
       paymentMethods: [ 0, 58 ],
       favorites: [ 24, 26, 5, 21, 10, 7 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 28,
@@ -378,7 +407,8 @@ const usuariosApp = [
          2, 27, 26, 29, 18,
         16, 20, 11, 13
       ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 29,
@@ -390,7 +420,8 @@ const usuariosApp = [
       cvu: '82-7264-0645-1782',
       paymentMethods: [ 6, 8, 62 ],
       favorites: [ 8, 14, 17, 20 ],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     },
     {
       id: 30,
@@ -402,7 +433,8 @@ const usuariosApp = [
       cvu: '15-8535-6147-4850',
       paymentMethods: [ 39, 56, 61 ],
       favorites: [],
-      operations: []
+      operations: [],
+      location:{latitude: -34.9770882,longitude: -58.3749746,},
     }
   ]
 

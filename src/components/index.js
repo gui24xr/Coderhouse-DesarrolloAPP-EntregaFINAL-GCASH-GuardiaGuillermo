@@ -7,6 +7,8 @@ import MenuList from "./MenuList/MenuList";
 import ButtonIcons from "./ButtonIcons/ButtonIcons";
 import ButtonsMenu from "./ButtonsMenu/ButtonsMenu";
 import ComunityViewer from "./CommunityViewer/CommunityViewer";
+import SliderSelector from "./SliderSelector/SliderSelector";
+import PaymentCard from "./PaymentCard/PaymentCard";
 
 
 export {
@@ -19,5 +21,7 @@ export {
   ButtonIcons,
   ButtonsMenu,
   ComunityViewer,
+  SliderSelector,
+ PaymentCard,
 
 };

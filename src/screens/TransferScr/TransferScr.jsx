@@ -1,89 +1,106 @@
 import styles from './TransferScr.styles'
-import {  Text, View, ScrollView, Pressable, Image, FlatList } from 'react-native'
+import {  Text, View, ScrollView, Pressable, Image, FlatList, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { ButtonIcons, Card } from '../../components'
+import { ButtonIcons, Card, SliderSelector, PaymentCard } from '../../components'
 import { colors } from '../../constants/constants'
 import { MaterialCommunityIcons, Entypo, FontAwesome} from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
+import { esValorMonetario } from '../../global/funciones'
+
+
+
 
 
 const TransferScr = () => {
 
+    const valoresPermitidos = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",","]
     //Transfiere el usuario logueado al usuario seleccionado.
     const loggedUserData = useSelector((state) => state.datos.loggedUser)
     const userToTransferData = useSelector((state) => state.datos.usuarioSeleccionado)
 
-    //Lo inicio por default en cvu
-    const [selectedPayMethod, setSelectedPayMethod] = useState('')
+    //Lo inicio por default en cvu del usuario logueado
+    const [selectedPayMethod, setSelectedPayMethod] = useState(loggedUserData.cvuInfo.cvuNumber)
+    const [valueToTransfer,setValueToTransfer]=useState(0)
+    const [inputValue, setInputvalue] = useState('')
+
+    //Con los datos de las tarjetas del usuario formo el array  de payment elementsque le voy a pasar al slider
+    //Al del cbu tengo qu formar un objeto para adaptarlo
+    const dataForSlider = []
+  //Agrego los datos del cvu de GCash y tamien les agrego un ID para que tengan en el slider
+    dataForSlider.push({keyID:loggedUserData.cvuInfo.cvuNumber,
+                        component: <PaymentCard paymentData={{
+                                                  bank:'GCASH', 
+                                                  typeMethod:'gcash',
+                                                  number:loggedUserData.cvuInfo.cvuNumber, 
+                                                  balance:loggedUserData.cvuInfo.balance}
+                                                }
+      />})
+    
+    
+    loggedUserData.paymentElements.forEach( item => {
+
+        let nuevoObjeto = { keyID: item.idPayMethod,
+                            component: <PaymentCard paymentData={{
+                              bank:item.bank,
+                                typeMethod:item.typeMethod,
+                                number: item.number,
+                                cashBalance: item.cashBalance,
+                                installmentBalance: item.installmentBalance
+                            }}/> }
+
+       dataForSlider.push(nuevoObjeto)
+      })
+      
+    //console.log(dataForSlider)
 
   return (
     <ScrollView>
-        <Text style={styles.textoTitles}>TRANSFERIR</Text>  
+       
     
         <Card>
-        <Text style={styles.textoSubTitles}>DESTINATARIO</Text>
-            <View style={styles.favoritesContainer} >
+
+          <Text style={styles.textoSubTitles}>TRANSFERIR</Text>  
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.textoTitles}>$</Text>  
+            <TextInput style={styles.textInput} 
+                placeholder="Importe"
+                value={valueToTransfer}
+                keyboardType="numeric"
+                //En esta funcion solo aceptare '0123456789.'
+                onChangeText={(text)=> { valoresPermitidos.includes(text) ?? setValueToTransfer(text)}}
+              />
+          </View>
+          <View style={styles.userToTransferContainer} >
                   
-                <Image src={userToTransferData.profilePic} style={styles.favoriteProfilePic} />
-                <View>
-                    <Text style={styles.nameText}>{userToTransferData.firstName} {userToTransferData.lastName}</Text>
-                    <Text style={styles.favoriteContainerText}>CVU {userToTransferData.cvuInfo.cvuNumber} </Text>
-                </View>
+            <Image src={userToTransferData.profilePic} style={styles.userToTransferPic} />
+            <View style={styles.userToTransferContainerData}>
+            <Text style={styles.textoSubTitles}>DESTINATARIO</Text>
+               <Text style={styles.textoUserName}>{userToTransferData.firstName} {userToTransferData.lastName}</Text>
+               <Text style={styles.textoUserName}>CVU {userToTransferData.cvuInfo.cvuNumber} </Text>
             </View>
-        </Card>
+          </View>
+    
+            <Text style={styles.textoSubTitles}>MEDIO DE PAGO E IMPORTE</Text>
+            <SliderSelector data={dataForSlider} onChangeFrame={setSelectedPayMethod}/>
 
-        <Card>
-            <Text style={styles.textoSubTitles}>SELECCIONAR MEDIO DE PAGO</Text>
-
-            <Pressable style={styles.paymentMethodContainer} onPress={()=> setSelectedPayMethod('cvu')} >
-
-                        <FontAwesome name="credit-card" size={24} color={'black'} />
-                        <View > 
-                        <Text style={styles.paymentMethodContainerTextTitle}>DINERO EN CUENTA GCASH</Text> 
-                         <Text style={styles.paymentMethodContainerText}>CVU {loggedUserData.cvuInfo.cvuNumber}</Text>
-                         <Text style={styles.paymentMethodContainerText}>Disponible ${loggedUserData.cvuInfo.balance}.00</Text>
-                         </View>
-            </Pressable>
-
+           
+            <TouchableOpacity style={styles.button} onPress={() => { esValorMonetario(valueToTransfer) ? alert("es monetario") : alert("no es moetario")}}>
+            <Text style={styles.buttonText}>CONTNUAR</Text>
+          </TouchableOpacity>
             
-            
-            <FlatList data={loggedUserData.paymentElements}
-            horizontal
-            renderItem={({item}) => 
-            <Pressable style={styles.paymentMethodContainer} onPress={()=> {setSelectedPayMethod(item.idPayMethod); console.log(selectedPayMethod)}} > 
+         </Card>
 
-              <FontAwesome name="credit-card" size={24} color="black" />
-              <View > 
-              {item.typeMethod == 'debit' && <View>
-                                                <Text style={styles.paymentMethodContainerTextTitle}>TARJETA DE DEBITO </Text>
-                                                <Text style={styles.paymentMethodContainerText}>Disponible en un pago ${item.cashBalance} </Text>
-                                            </View> }
-               
-             {item.typeMethod == 'credit' &&  <View>
-                                                <Text style={styles.paymentMethodContainerTextTitle}>TARJETA DE CREDITO </Text>
-                                                <Text style={styles.paymentMethodContainerText}>Disponible en un pago ${item.cashBalance} </Text>
-                                                <Text style={styles.paymentMethodContainerText}>Disponible en cuotas ${item.installmentBalance} </Text>
-                                            </View> }
+        
 
-            </View>
-            </Pressable>
+
           
-          }
-  
-  />
+           
 
-        
-
-        
-            </Card>
     </ScrollView>
   )
 }
 
 export default TransferScr
 
-/*    <Pressable style={styles.favoritesContainer} >
-        <Image src={item.favoriteProfilePic} style={styles.favoriteProfilePic} />
-        <Text style={styles.favoriteContainerText}>{item.favoriteCompleteName}</Text>
-      </Pressable>*/
