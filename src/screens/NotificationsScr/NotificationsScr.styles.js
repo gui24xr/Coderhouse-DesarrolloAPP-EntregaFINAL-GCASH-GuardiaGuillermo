@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
     container: {
       flex: 1,
     },
@@ -12,3 +12,19 @@ const styles = StyleSheet.create({
       zIndex: 1,
     },
   });
+  */
+
+  
+const styles = StyleSheet.create({
+  container: {
+    height: 50,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+  },
+  slider: {
+    height: 50,
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

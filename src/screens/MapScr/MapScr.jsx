@@ -1,9 +1,9 @@
 import styles from "./MapScr.styles";
-import { Text, View, Dimensions, Button, Pressable } from "react-native";
+import { Text, View, Pressable } from "react-native";
 import React from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { useEffect, useState } from "react";
-import { Card, SliderSelector, ButtonIcons } from "../../components";
+import { Card, SliderSelector } from "../../components";
 import PointCard from "./Components/PointCard";
 import { colors } from "../../constants/constants";
 import * as Location from "expo-location";
@@ -11,34 +11,9 @@ import markersData from "../../global/markersData";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import MarkersData from "../../global/markersData";
-import axios from "axios";
+import { calcularDistancia } from "../../global/funciones";
 
 
-const getUbicacion = async () => {
-  //Verifico Permisos
-  let { status } = await Location.requestForegroundPermissionsAsync();
-  if (status !== "granted") {
-    //setErrorMsg('Permission to access location was denied');
-    return 0;
-  }
-  //Obtengo la ubicacion, esta funcion me la devuelve en forma de objeto con los datos.
-  let location = await Location.getCurrentPositionAsync({});
-  //Devuelvo un objeto coords. //console.log(location.coords) //console.log(location.coords.latitude)
-  //console.log(location.coords.longitude) //Devuelve cero si hay error, si no devuelve las coord
-
-  //Ahora pongo en regionMostrada la ubicacion del usuario, creo un objeto con su ubicacion
-  const userActualUbication = {
-    latitude: location.coords.latitude,
-    longitude: location.coords.longitude,
-    latitudeDelta: 0.001,
-    longitudeDelta: 0.001,
-  };
-  //setCoordenadas(location.coords)
-  //setRegionMostrada(userActualUbication)
-  console.log("location: ", location.coords.latitude);
-  return location.coords.latitude;
-};
 
 //Datos para cargar el slider con los markerData
 const dataForSlider = [];
@@ -57,12 +32,10 @@ markersData.forEach((item) => {
   dataForSlider.push(nuevoObjeto);
 });
 
+
 const MapScr = () => {
-  //region INicial sera el domicilio del usuario de usuario
+  //region Inicial mostrada en el mapa sera el domicilio del usuario de usuario. La Exporto del store.
   const coordenadasUser = useSelector((state) => state.datos.loggedUser.location);
-  //Esta la usare para calcula la distancia entre puntos con google matrix
-  //const coordUserStringFormat =   "'" + coordenadasUser["latitude"].toString() + "," +  coordenadasUser["longitude"].toString() + "'";
-  //let coordPointStringFormat =  "'" +  coordenadasUser.latitude.toString() + "," +  coordenadasUser.longitude.toString() +  "'";
 
   const ubicacionDomicilioUsuario = {
     latitude: coordenadasUser.latitude,
@@ -71,6 +44,7 @@ const MapScr = () => {
     longitudeDelta: 0.01,
   };
 
+  
   //Para cambiar la region de mapa mostrado.
   const [regionMostrada, setRegionMostrada] = useState(ubicacionDomicilioUsuario);
  //Punto seleccionado por el slider
@@ -79,65 +53,98 @@ const MapScr = () => {
   const [clickedPoint, setClickedPoint] = useState(0);
   //Estado de ubicacion activa.
   const [locationEnabled, setLocationEnabled] = useState(null)
+  //Estado card visible
+  const [cardVisible,setCardVisible] = useState(true)
+  //Ubicacion actual del usuario en caso de estar encendida en el dispositivo.
+  const [distanceLocatePoint,setDistanceLocatePoint] = useState(0)
+  //Distancia entre domicilio y punto.
+  const [distanceAdressToPoint, setDistanceAdressToPoint] = useState(0)
 
-  //En este use effect cambio el mapa de lugar, borrar x ahora el use efect de ubcation
+  
+   /*Este Effect se va a encargar de centrar el mapa en el punto elegido en el slider y de cambiar el frame del slider si el usuario clickea un marker en el mapa
+    Cada vez que cambie selected point
+   */
   useEffect(() => {
-    //console.log("Elegido ID: ", selectedPoint);
-
-    // Escucho donde clickeo el usuario (Sea por tocar el boton domicilio o un marker o el slider) y depende lo que clickeo es donde centro el mapa
-    if (selectedPoint == "domicilio") {
-      //console.log("Se eligio domicilio");
-      setRegionMostrada(ubicacionDomicilioUsuario);
-    } else if ( selectedPoint == 'ubicacion'){
-
-       console.log("Se eligio ubicacion")
-          const checkLocationEnabled = async () => {
-            const { status } = await Location.requestForegroundPermissionsAsync();
-      
-            if (status === 'granted') {
-              const enabled = await Location.hasServicesEnabledAsync();
-              setLocationEnabled(enabled);
-            } else {
-              setLocationEnabled(false);
-              //Si no la activo le sugiero activar
-             getUbicacion()
-            }
-          };
-
-        checkLocationEnabled()
-        console.log(locationEnabled)
-
-    }    
-    //Si es un ID busco el ID en marker data para extraer las coordenadas.
-    else {
-      const positionIDBuscado = markersData.findIndex(
-        (element) => element.id == selectedPoint
-      );
-      //Ya tengo la posicion y se que existe.
+        // Escucho donde clickeo el usuario (Sea por tocar el boton domicilio o un marker o el slider) y depende lo que clickeo es donde centro el mapa
+    if (selectedPoint == "domicilio") setRegionMostrada(ubicacionDomicilioUsuario);
+    else { //Si se clickeo un ID busco el ID en marker data para extraer las coordenadas.
+      const positionIDBuscado = markersData.findIndex((element) => element.id == selectedPoint);
+      //Ya tengo la posicion y se que existe, seteo la region mostrada.
       setRegionMostrada({
         latitude: markersData[positionIDBuscado].latitude,
         longitude: markersData[positionIDBuscado].longitude,
         latitudeDelta: 0.5,
         longitudeDelta: 0.5,
       });
-
     }
 
   }, [selectedPoint]);
 
+   //Este useffect se encarga de informar al componente si la ubicacion dl movil esta activada o no.
+   useEffect(()=>{
+  
+    const checkLocateState = async () =>{
+      
+      const { status } = await Location.requestForegroundPermissionsAsync()
+      if (status === 'granted') {
+        //Si la ubicacion esta activda la seteo y la guardo en el hook correspondiente.
+        const estadoUbicacion = await Location.hasServicesEnabledAsync();
+        setLocationEnabled(estadoUbicacion);//True o false depende este activa o no
+     } 
+      else setLocationEnabled(false)// Si la ubicacion no esta activada pongo a flase el hook locationEnabled.
+    }
+
+    checkLocateState()
+},)
+
+
+  /** Este effect va a gestionar el tema de la calculo de distancia entre puntos mostrados en cada renderizado al cambiar el punto mostrado.
+   * 1- SI no esta activada, de todos modos va a calcular la distancia Point-Domicilio user para mostrar en el state correspondiente,.
+   * 2- Si esta activada va a obtener la ubicacion y calcular la distancia Point Domiclio y setearla en el state correspondiente.
+   */
+  useEffect(()=>{
+
+    const renderizarDistancias = async () => {
+              //obtengo las coordenadas del domicilio del user, del punto seleccionado y le doy forma de parametrospara utilizar en la funcion que devuelve la distancia, luego calculo.
+        const coordActualPoint = {lat: regionMostrada.latitude, lng: regionMostrada.longitude}
+        const addressUser = { lat: coordenadasUser.latitude, lng: coordenadasUser.longitude }; //console.log('Domicilio User: ', locationUser)
+        //Calculo la distancia , la tengo expresada en metros,si es menor que 1000m envio leyenda en metros, si no en KMS
+        const distanceAdressToPoint = (await calcularDistancia(addressUser, coordActualPoint)).distanciaValue;
+        distanceAdressToPoint < 1001 
+          ? setDistanceAdressToPoint('A ' + distanceAdressToPoint+ 'ms de tu domicilio.')
+          : setDistanceAdressToPoint('A ' + distanceAdressToPoint/1000 + 'Kms de tu domicilio.')
+          
+        /* Ahora checkeo si la ubicacion del dispostivo esta activada y de acuerdo a eso calculo o no la distancia ubicacion-point */
+        if ( locationEnabled){
+        //Obtengo la ubicacion actual del usuario.
+        locationActual = await Location.getCurrentPositionAsync({}) //console.log('Location: ', locationActual)
+        //obtengo las coordenadas del la ubicacion del user, del punto seleccionado y le doy forma de parametrospara utilizar en la funcion que devuelve la distancia, luego calculo
+        const coordenadasLocateUser = { lat: locationActual.coords.latitude, lng: locationActual.coords.longitude }; //console.log('LOcate User: ', coordenadasLocateUser)
+        const coordActualPoint = {lat: regionMostrada.latitude, lng: regionMostrada.longitude} // console.log("RegionMostrada: ", regionMostrada)
+        //Calculo la distancia , la tengo expresada en metros,si es menor que 1000m envio leyenda en metros, si no en KMS
+        const distanciaLocateToPoint = (await calcularDistancia(coordenadasLocateUser, coordActualPoint)).distanciaValue;
+        distanciaLocateToPoint < 1001 
+         ? setDistanceLocatePoint('A ' + distanciaLocateToPoint+ 'ms de tu ubicacion.')
+         : setDistanceLocatePoint('A ' + distanciaLocateToPoint/1000 + 'Kms de tu ubicacion.')
+       
+        }
+      }
+      //Llamo a la funcion.
+      renderizarDistancias()
+    }, [selectedPoint])
+
+    
+  
+  
+
+
+
+
+
+
   return (
     <>
-      <View style={{ marginVertical: 10 }}>
-        <Text
-          style={{
-            ...styles.textoSubTitles,
-            fontSize: 20,
-            alignSelf: "center",
-          }}
-        >
-          PUNTO DE EXTRACCION GCASH
-        </Text>
-      </View>
+     
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
@@ -145,6 +152,7 @@ const MapScr = () => {
         mapType="standard"
         showsUserLocation={true}
         followsUserLocation={true}
+        showsMyLocationButton={true}
       >
         <Marker
           key={"domicilio"}
@@ -163,14 +171,24 @@ const MapScr = () => {
               latitude: punto.latitude,
               longitude: punto.longitude,
             }}
+            image={require("../../assets/icons/pago.png")}
             onPress={() => {
               setClickedPoint(punto.id);
               //console.log("Clikeado: ", punto.id);
             }}
           />
         ))}
+
+    
       </MapView>
 
+    { cardVisible && 
+    <Card>
+      <View style={{ paddingVertical: 10, backgroundColor: 'white' }}>
+        <Text   style={{...styles.textoSubTitles, fontSize: 18, alignSelf: "center", }}>
+          PUNTOS DE EXTRACCION GCASH
+        </Text> 
+      </View>
       <View style={{ backgroundColor: "white" }}>
         <SliderSelector
           data={dataForSlider}
@@ -178,43 +196,42 @@ const MapScr = () => {
           selectedFrame={clickedPoint}
         />
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          paddingVertical: 10,
-        }}
-      >
-        <ButtonIcons
-          component={
-            <FontAwesome
-              name="home"
-              size={colors.favoriteButtonSize}
-              color={colors.favoritesButtonFontColor}
-            />
-          }
-          componentTitle={"Mi Domicilio"}
-          functionComponent={() => setSelectedPoint("domicilio")}
-          buttonColor={colors.favoritesButtonColor}
-          buttonBorderColor={colors.favoritesButtonColor}
-          buttonType="circle"
+      <View style={{backgroundColor:'white', paddingVertical: 15, paddingLeft: 20}}>
+        <View style={{flexDirection: 'row'}}>
+        <FontAwesome
+        name="home"
+        size={colors.favoriteButtonSize}
+        color={colors.favoritesButtonFontColor}
         />
-
-        <ButtonIcons
-          component={
-            <Ionicons
-              name="locate"
-              size={colors.favoriteButtonSize}
-              color={colors.favoritesButtonFontColor}
-            />
-          }
-          componentTitle={"Mi Ubicacion"}
-          functionComponent={() => setSelectedPoint("ubicacion")}
-          buttonColor={colors.favoritesButtonColor}
-          buttonBorderColor={colors.favoritesButtonColor}
-          buttonType="circle"
-        />
+        <Text style={{...styles.textoSubTitles, fontSize: 15, alignSelf: "center", marginLeft:10 }}>{distanceAdressToPoint}</Text>
       </View>
+    <View style={{flexDirection: 'row'}}>
+      <AntDesign
+      name="pushpin"
+      size={colors.favoriteButtonSize}
+      color={colors.favoritesButtonFontColor}
+      />
+      {
+       locationEnabled 
+       ?<Text style={{...styles.textoSubTitles, fontSize: 15, alignSelf: "center", marginLeft:10 }}>{distanceLocatePoint}</Text>
+       :
+        <Text style={{...styles.textoSubTitles, fontSize: 15, alignSelf: "center", marginLeft:10, color:'gray' }}>Activa tu ubicacion para conocer la distancia</Text>
+        
+      }
+      </View>
+    </View>
+    <Pressable style={{alignItems:'flex-end', }} onPress={()=>setCardVisible(false)}>
+      <Text style={{fontWeight:'500'}}>Ocultar</Text>
+    </Pressable>
+   
+  </Card>}
+
+   {cardVisible == false && 
+    <View style={{backgroundColor:'white', alignItems:'center'}}>
+      <Ionicons name="ios-menu" size={24} color="black" onPress={()=>setCardVisible(true)} />
+    </View>}
+
+
     </>
   );
 };
@@ -238,109 +255,3 @@ export default MapScr;
 
 
 
-
-
-
-/*
- useEffect(()=>{
-
-        //En el primer renderizado yo quiero centrar el mapa en la ubicacion del usuario.
-        //SI el usuario no me da la ubicacion uso el domicilio de su perfil ( lo traigo del store)
-        const getUbicacion = async () => {
-            //Verifico Permisos
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== "granted") {//setErrorMsg('Permission to access location was denied');
-              return 0;
-            }
-            //Obtengo la ubicacion, esta funcion me la devuelve en forma de objeto con los datos.
-            let location = await Location.getCurrentPositionAsync({});
-             //Devuelvo un objeto coords. //console.log(location.coords) //console.log(location.coords.latitude)
-            //console.log(location.coords.longitude) //Devuelve cero si hay error, si no devuelve las coord
-            
-            //Ahora pongo en regionMostrada la ubicacion del usuario, creo un objeto con su ubicacion
-            const userActualUbication = {
-              latitude: location.latitude,
-              longitude: location.longitude,
-              latitudeDelta: 0.001,
-              longitudeDelta: 0.001,
-            }
-            //setCoordenadas(location.coords)
-            setRegionMostrada(userActualUbication)
-            console.log('location: ', location.coords)
-            
-
-          };
-        
-          //Lla mo a la funcion para obtener la ubicacion a mostrar en el mapa
-          getUbicacion()
-     
-
-    },[])
-
-*/
-
-/*
-
- { ubicacionHabilitada 
-      && <MarkersData key={'ubicacionActual'}
-                     coordinate={{latitude: actualUbicationData.latitude, 
-                                  longitude:actualUbicationData.longitude}}
-                                  image={require('../../assets/icons/alfiler.png')} 
-      />}
-
-      */
-
-/*
-
-        //Esta funcion va a cambiar el centro y tambien calcular la distancia
-  const cambiarCentro = () => {
-    setRegionMostrada({
-      latitude: markersData[contador].latitude,
-      longitude: markersData[contador].longitude,
-      latitudeDelta: 0.1,
-      longitudeDelta: 0.1,
-    });
-
-    contador = contador + 1;
-    console.log("Contador paso a: ", contador);
-    console.log("Region: ", regionMostrada);
-  };  */
-
-
-
-  /*
-  
-    const coordenada1 = "37.7749,-122.4194"; // Formato: latitud,longitud
-    const coordenada2 = "34.0522,-118.2437";
-    const coordenada3 = "27.7749,-122.4194";
-    const coordenada4 = "-34.9770,-58.3741";
-    const coordenada5 = "-34.9770882,-58.3749746"; // Coordenada de Buenos Aires, Argentina
-    const coordenada6 = "-34.6037,-58.3816"; // Coordenada de otro punto (ejemplo: Plaza de Mayo)
-    const coordenada7 = "-24.7829,-65.4124";
-    const coordenada8 = "-34.9770882,-58.3749746";
-
-    calcularDistancia(coordenada8, coordenada8, APIKEYMATRIX);
-    */
-
-
-    /*
-const APIKEYMATRIX = "AIzaSyAmKfvuZFK2D0AYjq5RnZyjvZyKWvvp5hI";
-
-//Con esta parte calculo la distancia
-async function calcularDistancia(coordenada1, coordenada2, apiKey) {
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${coordenada1}&destinations=${coordenada2}&key=${apiKey}`;
-  try {
-    const response = await axios.get(url);
-
-    if (response.data.status === "OK") {
-      // Extraer la distancia del primer elemento de la respuesta
-      console.log("AAA: ", response.data.rows[0]);
-      const distancia = response.data.rows[0].elements[0].distance.text;
-      console.log(`La distancia entre las coordenadas es: ${distancia}`);
-    } else {
-      console.error(`Error al calcular la distancia: ${response.data.status}`);
-    }
-  } catch (error) {
-    console.error("Error de red:", error.message);
-  }
-}*/

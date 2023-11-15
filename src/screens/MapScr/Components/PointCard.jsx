@@ -6,23 +6,19 @@ import { colors } from '../../../constants/constants';
 const PointCard = ({pointName, pointDirection,pointContact}) =>{
 
   return(
-    <View style={{backgroundColor: colors.generalColor, padding: 10, marginBottom: 10,alignItems:'center' }}>
+    <View >
     
 
-    <View style={{flexDirection:'row',}}>
+    <View style={{flexDirection:'row',marginBottom:15}}>
       
       <View style={{justifyContent:'flex-start'}}>
         <MaterialCommunityIcons name="map-marker" size={40} color="red" />
        
       </View>
-      <View style={{marginHorizontal: 20,}}>
-      <Text style={{...styles.textoSubTitles, marginBottom: 1, color: 'white'}}>{pointName}</Text>
-        <Text style={{color:'white', fontSize: 16}}>{pointDirection}</Text>
-        <View style={{flexDirection:'row', paddingVertical:5}}>
-          <Feather style={{alignSelf:'center'}} name="phone" size={14} color="white" />
-          <Text style={{paddingLeft: 5, color: 'white', fontSize: 16}}>{pointContact}</Text>
-        </View>
-        
+      <View style={{marginHorizontal: 5,}}>
+      <Text style={{...styles.textoSubTitles, marginBottom: 1, }}>{pointName}</Text>
+        <Text style={{ fontSize: 16}}>{pointDirection} | <Feather style={{alignSelf:'center',}} name="phone" size={14} color="black" />  {pointContact}</Text>
+    
       </View>
     </View>
     

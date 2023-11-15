@@ -29,10 +29,9 @@ export default styles = StyleSheet.create({
    
     },
     map: {
-      //...StyleSheet.absoluteFillObject,
-      height: Dimensions.get('window').height * 0.5,
+      ...StyleSheet.absoluteFillObject,
+      height: Dimensions.get('window').height ,
       width: Dimensions.get('window').width ,
-      borderWidth: 2, // Ancho del borde
-      borderColor: 'black', // Color del borde
+     
     },
   });
