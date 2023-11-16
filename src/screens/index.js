@@ -10,6 +10,8 @@ import TransferSelectScr from "./TransferSelectScr/TransferSelectScr";
 import TransferScr from "./TransferScr/TransferScr";
 import MapScr from "./MapScr/MapScr";
 import QrScanScr from "./QrScanScr/QrScanScr";
+import ReserveMoneyScr from "./ReserveMoneyScr/ReserveMoney";
+import AddMoneyScr from "./AddMoneyScr/AddMoneyScr";
 
 export {
   LoginScr,
@@ -24,4 +26,6 @@ export {
   TransferScr,
   MapScr,
   QrScanScr,
+  ReserveMoneyScr,
+  AddMoneyScr,
 };

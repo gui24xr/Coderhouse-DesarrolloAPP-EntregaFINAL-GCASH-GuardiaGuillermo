@@ -17,7 +17,7 @@ export default styles = StyleSheet.create({
         ...styleTextoTipo1, 
        
         alignSelf: 'center',
-        paddingTop: 50,
+        
        
     },
 
@@ -25,7 +25,7 @@ export default styles = StyleSheet.create({
         ...styleTextoTipo5, 
         
         alignSelf: 'center',
-        paddingBottom: 10,
+        
         
     },
 
@@ -33,14 +33,10 @@ export default styles = StyleSheet.create({
       
         justifyContent: 'center',
         verticalAlign: 'bottom',
-        borderTopWidth: 1.5,
-        borderBottomWidth: 1.5,
-        borderColor: 'blue',
         
-        marginTop: 30,
-        paddingTop: 10,
-        paddingBottom: 60,
-        marginBottom: 50,
+        
+        
+      
       
     }
 })

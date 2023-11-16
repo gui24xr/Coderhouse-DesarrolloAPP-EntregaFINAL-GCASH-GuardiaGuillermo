@@ -1,7 +1,7 @@
 import styles from './TransferScr.styles'
 import {  Text, View, ScrollView, Pressable, Image, FlatList, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { ButtonIcons, Card, SliderSelector, PaymentCard } from '../../components'
+import { Card, SliderSelector, PaymentCard, SectionTitle } from '../../components'
 import { colors } from '../../constants/constants'
 import { MaterialCommunityIcons, Entypo, FontAwesome} from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
@@ -55,12 +55,20 @@ const TransferScr = () => {
     //console.log(dataForSlider)
 
   return (
+
+    <>
+    <SectionTitle
+        sectionName='Transferir'
+        icon={<MaterialCommunityIcons name="bank-transfer" size={36} color={colors.favoritesButtonFontColor} />}
+        description={'Selecciona importe y medio de pago por el cual enviaras dinero a ' + userToTransferData.firstName + ' ' + userToTransferData.lastName} 
+      />
     <ScrollView>
        
+
     
         <Card>
 
-          <Text style={styles.textoSubTitles}>TRANSFERIR</Text>  
+         
 
           <View style={styles.inputContainer}>
             <Text style={styles.textoTitles}>$</Text>  
@@ -99,6 +107,7 @@ const TransferScr = () => {
            
 
     </ScrollView>
+    </>
   )
 }
 

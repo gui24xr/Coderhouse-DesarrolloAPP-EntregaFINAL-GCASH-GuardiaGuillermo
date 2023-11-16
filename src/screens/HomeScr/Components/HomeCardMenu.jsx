@@ -14,7 +14,7 @@ const HomeCardMenu = ({navigation}) => {
           element: <ButtonIcons 
                     component={<MaterialCommunityIcons name="bank-plus" size={colors.homeCardButtonSize} color={colors.homeCardButtonFontColor} />}
                     componentTitle={'Ingresar'}
-                    functionComponent={()=>alert('hasta')}
+                    functionComponent={()=>navigation.navigate('AddMoneyScr')}
                     buttonColor={colors.homeCardButtonColor}
                     buttonBorderColor={colors.homeCardButtonBorderColor}
                     buttonType='circle'
@@ -47,7 +47,7 @@ const HomeCardMenu = ({navigation}) => {
                 element: <ButtonIcons 
                           component={<MaterialCommunityIcons name="piggy-bank-outline" size={colors.homeCardButtonSize} color={colors.homeCardButtonFontColor}  />}
                           componentTitle={'Ahorrar'}
-                          functionComponent={()=>alert("Aun no implementado.")}
+                          functionComponent={()=>navigation.navigate('ReserveMoneyScr')}
                           buttonColor={colors.homeCardButtonColor}
                           buttonBorderColor={colors.homeCardButtonBorderColor}
                           buttonType='circle'

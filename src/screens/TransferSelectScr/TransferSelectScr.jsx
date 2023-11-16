@@ -9,8 +9,10 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card } from "../../components";
+import { Card, SectionTitle } from "../../components";
 import CardUser from "./Components/CardUser";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { colors } from "../../constants/constants";
 
 const TransferSelectScr = ({ navigation }) => {
 
@@ -35,7 +37,13 @@ const TransferSelectScr = ({ navigation }) => {
 
   return (
     <View>
-      <Text style={styles.titleScreen}>TRANSFERENCIAS</Text>
+      
+      <SectionTitle
+        sectionName='Transferencias'
+        icon={<MaterialCommunityIcons name="bank-transfer" size={36} color={colors.favoritesButtonFontColor} />}
+        description={'Selecciona la persona a la que deseas trasferir dinero a su cuenta en GCASH.'}
+      />
+
       <Card>
         <TextInput style={styles.textInput} 
                     placeholder="Buscar contactos"

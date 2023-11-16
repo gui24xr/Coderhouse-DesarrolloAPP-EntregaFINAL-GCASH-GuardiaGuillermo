@@ -1,7 +1,7 @@
 import styles from '../AccountDataScr/AccountDataScr.styles'
-import {  Text, View, Image } from 'react-native'
+import {  Text, View, Image, ScrollView } from 'react-native'
 import React from 'react'
-import { ButtonIcons, Card } from '../../components'
+import { ButtonIcons, Card, SectionTitle } from '../../components'
 import { colors } from '../../constants/constants'
 import { MaterialCommunityIcons, Entypo} from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
@@ -20,12 +20,22 @@ const AccountDataScr = () => {
 
 
   return (
-    <View>
+
+    <>
+
+    <SectionTitle
+        sectionName='datos de tu cuenta...'
+        icon={<MaterialCommunityIcons name="bank-transfer" size={36} color={colors.favoritesButtonFontColor} />}
+        description={'Para ingresar y recibir dinero desde cuentas bancarias o digitales.'} 
+      />
+    <ScrollView>
+
+
+
+
       <Card>
 
-      <Text style={styles.leyenda}>
-        Para ingresar y recibir dinero desde cuentas bancarias o digitales 
-      </Text>
+    
 
       <View style={styles.dataContainer}>
         <Text style={styles.textoTitles}>Tu Alias</Text>
@@ -58,7 +68,7 @@ const AccountDataScr = () => {
       <ButtonIcons 
       component={<Entypo name="share" size={20} color={colors.favoritesButtonFontColor} />}
       componentTitle={'  Compartir datos'}
-      functionComponent={()=>alert('hasta')}
+      functionComponent={()=>alert('Aun np Implementado')}
       buttonColor={'#e0ffff'}
       buttonBorderColor={colors.favoritesButtonBorderColor}
       buttonType='rectangle'
@@ -71,7 +81,8 @@ const AccountDataScr = () => {
     </Card>
 
    
-    </View>
+    </ScrollView>
+    </>
   )
 }
 

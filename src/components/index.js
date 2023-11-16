@@ -9,6 +9,7 @@ import ButtonsMenu from "./ButtonsMenu/ButtonsMenu";
 import ComunityViewer from "./CommunityViewer/CommunityViewer";
 import SliderSelector from "./SliderSelector/SliderSelector";
 import PaymentCard from "./PaymentCard/PaymentCard";
+import SectionTitle from "./SectionTitle/SectionTitle";
 
 
 export {
@@ -23,5 +24,5 @@ export {
   ComunityViewer,
   SliderSelector,
  PaymentCard,
-
+ SectionTitle,
 };
