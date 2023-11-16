@@ -9,6 +9,7 @@ import AccountDataScr from "./AccountDataScr/AccountDataScr";
 import TransferSelectScr from "./TransferSelectScr/TransferSelectScr";
 import TransferScr from "./TransferScr/TransferScr";
 import MapScr from "./MapScr/MapScr";
+import QrScanScr from "./QrScanScr/QrScanScr";
 
 export {
   LoginScr,
@@ -22,4 +23,5 @@ export {
   TransferSelectScr,
   TransferScr,
   MapScr,
+  QrScanScr,
 };

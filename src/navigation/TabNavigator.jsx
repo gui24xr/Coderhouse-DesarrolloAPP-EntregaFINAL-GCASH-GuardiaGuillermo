@@ -1,7 +1,7 @@
 import styles from './TabNavigator.styles'
 //import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScr,NotificationsScr,ActivitiesScr, MenuGeneralScr } from '../screens';
+import { HomeScr,NotificationsScr,ActivitiesScr, MenuGeneralScr,QrScanScr } from '../screens';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../constants/constants';
 
@@ -23,7 +23,7 @@ const TabNavigator = () => {
       options={{
         tabBarIcon:()=> <ButtonTab nameIcon='book-clock-outline' nameButton='Actividad' />
       }} />
-      <Tab.Screen name="QR" component={ActivitiesScr} 
+      <Tab.Screen name="QR" component={QrScanScr} 
       options={{
         tabBarIcon:()=> <ButtonTab nameIcon='qrcode-scan' nameButton='QR' />
       }}/>
